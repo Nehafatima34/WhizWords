@@ -1,75 +1,124 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 
 interface DifficultySelectorProps {
   onSelect: (difficulty: "easy" | "medium" | "hard") => void;
 }
 
 const DifficultySelector = ({ onSelect }: DifficultySelectorProps) => {
-  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
-
-  const difficulties = [
-    {
-      id: "easy",
-      name: "Easy",
-      description: "Short words, slower pace, fewer distractions",
-      color: "from-green-400 to-green-500",
-      hoverColor: "from-green-500 to-green-600"
-    },
-    {
-      id: "medium",
-      name: "Medium",
-      description: "Moderate challenge with moderate pace and medium-difficulty words",
-      color: "from-blue-400 to-blue-500",
-      hoverColor: "from-blue-500 to-blue-600"
-    },
-    {
-      id: "hard",
-      name: "Hard",
-      description: "Complex words and faster pace for a more challenging experience",
-      color: "from-red-400 to-red-500",
-      hoverColor: "from-red-500 to-red-600"
-    }
-  ];
-
   return (
-    <motion.div 
-      className="max-w-2xl w-full bg-white rounded-2xl p-8 shadow-xl"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 font-lexend">
-        Choose Your Difficulty
-      </h2>
+    <div className="flex flex-col items-center">
+      <h2 className="text-2xl font-bold text-purple-800 mb-6">Choose Difficulty</h2>
       
-      <div className="space-y-4">
-        {difficulties.map((difficulty) => (
-          <motion.button
-            key={difficulty.id}
-            className={`w-full p-6 rounded-xl text-left transition duration-300 shadow-md 
-                       bg-gradient-to-r ${hoveredOption === difficulty.id ? difficulty.hoverColor : difficulty.color} text-white`}
-            onClick={() => onSelect(difficulty.id as "easy" | "medium" | "hard")}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            onHoverStart={() => setHoveredOption(difficulty.id)}
-            onHoverEnd={() => setHoveredOption(null)}
-          >
-            <h3 className="text-2xl font-bold mb-2 font-lexend">{difficulty.name}</h3>
-            <p className="text-sm opacity-90 font-lexend">{difficulty.description}</p>
-          </motion.button>
-        ))}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6 max-w-3xl">
+        {/* Easy Mode */}
+        <motion.div
+          className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition hover:scale-105"
+          whileHover={{ y: -5 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => onSelect("easy")}
+        >
+          <div className="bg-green-500 h-2"></div>
+          <div className="p-6">
+            <h3 className="text-xl font-bold text-green-600 mb-2">Easy</h3>
+            <p className="text-gray-600 text-sm">
+              Simple words and short stories perfect for beginners.
+            </p>
+            <ul className="mt-4 text-sm text-gray-500">
+              <li className="flex items-center mb-1">
+                <svg className="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Short, simple stories
+              </li>
+              <li className="flex items-center mb-1">
+                <svg className="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Basic vocabulary
+              </li>
+              <li className="flex items-center">
+                <svg className="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Relaxed reading pace
+              </li>
+            </ul>
+          </div>
+        </motion.div>
+        
+        {/* Medium Mode */}
+        <motion.div
+          className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition hover:scale-105"
+          whileHover={{ y: -5 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => onSelect("medium")}
+        >
+          <div className="bg-blue-500 h-2"></div>
+          <div className="p-6">
+            <h3 className="text-xl font-bold text-blue-600 mb-2">Medium</h3>
+            <p className="text-gray-600 text-sm">
+              Slightly more complex words and engaging stories.
+            </p>
+            <ul className="mt-4 text-sm text-gray-500">
+              <li className="flex items-center mb-1">
+                <svg className="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Medium-length stories
+              </li>
+              <li className="flex items-center mb-1">
+                <svg className="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Expanded vocabulary
+              </li>
+              <li className="flex items-center">
+                <svg className="w-4 h-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Moderate reading pace
+              </li>
+            </ul>
+          </div>
+        </motion.div>
+        
+        {/* Hard Mode */}
+        <motion.div
+          className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition hover:scale-105"
+          whileHover={{ y: -5 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => onSelect("hard")}
+        >
+          <div className="bg-purple-500 h-2"></div>
+          <div className="p-6">
+            <h3 className="text-xl font-bold text-purple-600 mb-2">Hard</h3>
+            <p className="text-gray-600 text-sm">
+              More complex words and richer, longer stories.
+            </p>
+            <ul className="mt-4 text-sm text-gray-500">
+              <li className="flex items-center mb-1">
+                <svg className="w-4 h-4 mr-2 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Longer, detailed stories
+              </li>
+              <li className="flex items-center mb-1">
+                <svg className="w-4 h-4 mr-2 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Advanced vocabulary
+              </li>
+              <li className="flex items-center">
+                <svg className="w-4 h-4 mr-2 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                </svg>
+                Challenging reading pace
+              </li>
+            </ul>
+          </div>
+        </motion.div>
       </div>
-      
-      <motion.div 
-        className="mt-8 text-center text-gray-600 text-sm font-lexend"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        Select the option that best matches your comfort level
-      </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

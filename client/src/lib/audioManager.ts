@@ -1,4 +1,4 @@
-import { Howl } from "howler";
+import { Howl, Howler } from "howler";
 import { useAudio } from "./stores/useAudio";
 
 // Audio instances

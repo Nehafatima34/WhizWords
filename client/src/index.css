@@ -1,11 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import Lexend font via CDN */
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
-/* Import OpenDyslexic font */
-@import url('https://fonts.cdnfonts.com/css/opendyslexic');
 
 @layer base {
   * {
