@@ -2,30 +2,35 @@ import { create } from "zustand";
 
 interface AudioState {
   backgroundMusic: HTMLAudioElement | null;
-  hitSound: HTMLAudioElement | null;
+  pageFlipSound: HTMLAudioElement | null;
   successSound: HTMLAudioElement | null;
+  wordSound: HTMLAudioElement | null;
   isMuted: boolean;
   
   // Setter functions
   setBackgroundMusic: (music: HTMLAudioElement) => void;
-  setHitSound: (sound: HTMLAudioElement) => void;
+  setPageFlipSound: (sound: HTMLAudioElement) => void;
   setSuccessSound: (sound: HTMLAudioElement) => void;
+  setWordSound: (sound: HTMLAudioElement) => void;
   
   // Control functions
   toggleMute: () => void;
-  playHit: () => void;
+  playPageFlip: () => void;
   playSuccess: () => void;
+  speakWord: (word: string) => void;
 }
 
 export const useAudio = create<AudioState>((set, get) => ({
   backgroundMusic: null,
-  hitSound: null,
+  pageFlipSound: null,
   successSound: null,
+  wordSound: null,
   isMuted: true, // Start muted by default
   
   setBackgroundMusic: (music) => set({ backgroundMusic: music }),
-  setHitSound: (sound) => set({ hitSound: sound }),
+  setPageFlipSound: (sound) => set({ pageFlipSound: sound }),
   setSuccessSound: (sound) => set({ successSound: sound }),
+  setWordSound: (sound) => set({ wordSound: sound }),
   
   toggleMute: () => {
     const { isMuted } = get();
@@ -38,20 +43,20 @@ export const useAudio = create<AudioState>((set, get) => ({
     console.log(`Sound ${newMutedState ? 'muted' : 'unmuted'}`);
   },
   
-  playHit: () => {
-    const { hitSound, isMuted } = get();
-    if (hitSound) {
+  playPageFlip: () => {
+    const { pageFlipSound, isMuted } = get();
+    if (pageFlipSound) {
       // If sound is muted, don't play anything
       if (isMuted) {
-        console.log("Hit sound skipped (muted)");
+        console.log("Page flip sound skipped (muted)");
         return;
       }
       
       // Clone the sound to allow overlapping playback
-      const soundClone = hitSound.cloneNode() as HTMLAudioElement;
+      const soundClone = pageFlipSound.cloneNode() as HTMLAudioElement;
       soundClone.volume = 0.3;
       soundClone.play().catch(error => {
-        console.log("Hit sound play prevented:", error);
+        console.log("Page flip sound play prevented:", error);
       });
     }
   },
@@ -69,6 +74,25 @@ export const useAudio = create<AudioState>((set, get) => ({
       successSound.play().catch(error => {
         console.log("Success sound play prevented:", error);
       });
+    }
+  },
+  
+  speakWord: (word: string) => {
+    const { isMuted } = get();
+    if (isMuted) {
+      console.log("Word speech skipped (muted)");
+      return;
+    }
+    
+    // Use the Web Speech API for text-to-speech
+    if ('speechSynthesis' in window) {
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.rate = 0.9; // Slightly slower than normal
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
     }
   }
 }));

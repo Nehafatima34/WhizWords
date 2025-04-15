@@ -1,14 +1,15 @@
 import { create } from "zustand";
-import { generatePuzzle, getPuzzlesForDifficulty } from "../wordLists";
 
 export type GamePhase = "home" | "playing" | "levelComplete";
 export type Difficulty = "easy" | "medium" | "hard";
+export type ThemeType = "forest" | "ocean" | "space" | "castle" | "rainbow" | "default";
 
-export interface WordPuzzle {
-  word: string;
-  blanks: number[];
-  missingLetters: string[];
-  availableLetters: string[];
+export interface Story {
+  id: string;
+  title: string;
+  theme: ThemeType;
+  content: string;
+  difficulty: Difficulty;
 }
 
 interface GameState {
@@ -17,9 +18,13 @@ interface GameState {
   difficulty: Difficulty;
   currentLevel: number;
   totalLevels: number;
-  puzzles: WordPuzzle[];
-  currentPuzzle: WordPuzzle | null;
+  stories: Story[];
+  currentStory: Story | null;
+  currentStoryTheme: ThemeType;
   levelsCompleted: number;
+  currentWordIndex: number;
+  isAudioEnabled: boolean;
+  fontFamily: "lexend" | "opendyslexic";
   
   // Actions
   setDifficulty: (difficulty: Difficulty) => void;
@@ -28,37 +33,123 @@ interface GameState {
   continueToNextLevel: () => void;
   goToHome: () => void;
   resetGame: () => void;
+  toggleAudio: () => void;
+  toggleFont: () => void;
+  readNextWord: () => void;
 }
+
+// Sample stories by difficulty and theme
+const stories: Record<Difficulty, Story[]> = {
+  easy: [
+    {
+      id: "bunny-garden",
+      title: "Bunny's Garden Adventure",
+      theme: "forest",
+      difficulty: "easy",
+      content: "Hop hop! Little Bunny jumps in the garden. He sees big red flowers. Bunny smells sweet grass. The sun is warm. Bunny finds a carrot! Yum yum! Bunny loves his garden home."
+    },
+    {
+      id: "lost-fairy",
+      title: "The Lost Fairy Wand",
+      theme: "forest",
+      difficulty: "easy",
+      content: "Tink the fairy lost her magic wand. She looks in the flowers. She looks under leaves. Where is it? A bird has it! The bird gives it back. Now Tink can do magic again!"
+    }
+  ],
+  medium: [
+    {
+      id: "ocean-colors",
+      title: "Ocean of Colors",
+      theme: "ocean",
+      difficulty: "medium",
+      content: "Deep in the blue ocean, fish swim between green seaweed. A yellow seahorse hides behind purple coral. Red starfish rest on the sandy floor. Orange crabs scuttle across rocks. The water sparkles with rainbow colors when sunlight touches the waves."
+    },
+    {
+      id: "space-galaxy",
+      title: "Rocket to Reading Galaxy",
+      theme: "space",
+      difficulty: "medium",
+      content: "Captain Sam blasts off in her silver rocket. She zooms past twinkling stars and colorful planets. Her mission is to find the Reading Galaxy! She flies through a cloud of space dust. Finally, she sees it - a galaxy shaped like an open book!"
+    }
+  ],
+  hard: [
+    {
+      id: "castle-escape",
+      title: "WhizWords Castle Escape",
+      theme: "castle",
+      difficulty: "hard",
+      content: "Princess Maya was trapped in the highest tower of the ancient WhizWords Castle. The mysterious enchanted books that surrounded her contained magical spells that could help her escape. Each time she read a difficult word correctly, one of the heavy stone blocks in the wall would disappear. She practiced reading every day, watching as more light streamed through the growing opening in the wall."
+    },
+    {
+      id: "rainbow-unicorn",
+      title: "The Rainbow Unicorn's Quest",
+      theme: "rainbow",
+      difficulty: "hard",
+      content: "The magnificent rainbow unicorn galloped across the sparkling meadow, searching for the lost pieces of his magical crystal horn. Each fragment was hidden within a challenging puzzle that only someone with exceptional reading skills could solve. As he journeyed through the enchanted forest, friendly woodland creatures offered clues written in riddles. The unicorn knew that only by understanding every word perfectly would he restore his powerful horn and bring color back to the fading rainbow kingdom."
+    }
+  ]
+};
 
 export const useGameState = create<GameState>((set, get) => ({
   phase: "home",
   difficulty: "easy",
   currentLevel: 1,
-  totalLevels: 10,
-  puzzles: [],
-  currentPuzzle: null,
+  totalLevels: 6, // 2 stories per difficulty level x 3 difficulty levels
+  stories: [],
+  currentStory: null,
+  currentStoryTheme: "default",
   levelsCompleted: 0,
+  currentWordIndex: -1, // Not yet started reading
+  isAudioEnabled: false,
+  fontFamily: "lexend",
   
   setDifficulty: (difficulty) => {
-    // Generate puzzles based on the selected difficulty
-    const puzzles = getPuzzlesForDifficulty(difficulty, 10); // 10 puzzles per game
+    // Get stories for the selected difficulty
+    const selectedStories = stories[difficulty];
     
     set({
       difficulty,
-      puzzles,
-      totalLevels: puzzles.length
+      stories: selectedStories,
+      totalLevels: selectedStories.length
     });
   },
   
   startGame: () => {
-    const { puzzles } = get();
+    const { stories, difficulty } = get();
+    const selectedStories = stories.length > 0 ? stories : stories[difficulty];
+    
+    if (selectedStories.length === 0) {
+      console.error("No stories available");
+      return;
+    }
     
     // Reset game state and start at level 1
     set({
       phase: "playing",
       currentLevel: 1,
-      currentPuzzle: puzzles[0], // First puzzle
+      currentStory: selectedStories[0],
+      currentStoryTheme: selectedStories[0].theme,
+      currentWordIndex: -1, // Start before first word
       levelsCompleted: 0
+    });
+  },
+  
+  readNextWord: () => {
+    const { currentStory, currentWordIndex } = get();
+    
+    if (!currentStory) return;
+    
+    const words = currentStory.content.split(' ');
+    
+    // If we've reached the end of the story, complete the level
+    if (currentWordIndex >= words.length - 1) {
+      get().completeLevel(true);
+      return;
+    }
+    
+    // Otherwise, move to the next word
+    set({
+      currentWordIndex: currentWordIndex + 1
     });
   },
   
@@ -71,7 +162,7 @@ export const useGameState = create<GameState>((set, get) => ({
   },
   
   continueToNextLevel: () => {
-    const { currentLevel, totalLevels, puzzles } = get();
+    const { currentLevel, totalLevels, stories } = get();
     
     // If all levels completed, go back to home
     if (currentLevel >= totalLevels) {
@@ -81,10 +172,14 @@ export const useGameState = create<GameState>((set, get) => ({
     
     // Otherwise, continue to next level
     const nextLevel = currentLevel + 1;
+    const nextStory = stories[nextLevel - 1]; // Arrays are 0-indexed
+    
     set({
       phase: "playing",
       currentLevel: nextLevel,
-      currentPuzzle: puzzles[nextLevel - 1] // Arrays are 0-indexed
+      currentStory: nextStory,
+      currentStoryTheme: nextStory.theme,
+      currentWordIndex: -1 // Reset word index for new story
     });
   },
   
@@ -93,7 +188,8 @@ export const useGameState = create<GameState>((set, get) => ({
     set({
       phase: "home",
       currentLevel: 1,
-      currentPuzzle: null
+      currentStory: null,
+      currentWordIndex: -1
     });
   },
   
@@ -102,9 +198,23 @@ export const useGameState = create<GameState>((set, get) => ({
     set({
       phase: "home",
       currentLevel: 1,
-      puzzles: [],
-      currentPuzzle: null,
-      levelsCompleted: 0
+      stories: [],
+      currentStory: null,
+      currentStoryTheme: "default",
+      levelsCompleted: 0,
+      currentWordIndex: -1
     });
+  },
+  
+  toggleAudio: () => {
+    set((state) => ({
+      isAudioEnabled: !state.isAudioEnabled
+    }));
+  },
+  
+  toggleFont: () => {
+    set((state) => ({
+      fontFamily: state.fontFamily === "lexend" ? "opendyslexic" : "lexend"
+    }));
   }
 }));

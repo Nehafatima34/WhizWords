@@ -1,0 +1,122 @@
+Project Title: WhizWords
+✨ Tagline:
+“Turn pages into play – where stories come alive, one word at a time.”
+
+🎯 Purpose:
+WhizWords is a gamified, story-based reading experience designed for children with dyslexia. It enhances readability through interactive word-by-word narration, motivational animations, and visual storytelling. Each level unlocks a new story, background theme, and effects that make reading fun, accessible, and engaging.
+
+🌈 Core Features:
+🏠 1. Homepage
+Animated background: Flowing clouds, magical books flying, glowing stars, or forest scene (depending on theme).
+
+WhizWords Logo with glowing or sparkly entrance animation.
+
+Play Button with hover animations (e.g., bouncing or glowing).
+
+Tagline: Bold, with a ribbon flowing across screen.
+
+"Choose Difficulty" box:
+
+Easy 🐣
+
+Medium 🌟
+
+Hard 🔥
+
+Progress bar (showing completion of story levels).
+
+Back button: Top-left corner, animated arrow.
+
+📖 2. Story Levels (6 Stories, 3 Difficulties)
+Each level contains:
+
+A unique story crafted for that difficulty:
+
+Easy: Simple words, short sentences, big fonts.
+
+Medium: Moderate vocabulary, complete paragraphs.
+
+Hard: Longer stories, more complex word flow.
+
+Level-specific creative backgrounds:
+
+Forest story → Forest background with birds chirping.
+
+Ocean story → Water ripple animation, fish swim by.
+
+Space story → Stars twinkling, gentle spaceship floating.
+
+Word-by-word interactive reading:
+
+User clicks/taps to reveal each word.
+
+Focus highlighting: One word at a time is shown in focus (larger or color shift).
+
+Audio narration (optional toggle).
+
+Subtle animation on each word (fade-in, pop, gentle bounce).
+
+🎯 3. Game Mechanics
+Words are revealed step-by-step like unlocking a puzzle.
+
+After completing a story, a popup appears:
+
+🎉 “Level Complete!”
+
+🎀 Motivational tagline (e.g., “Great job! You’re a reading star!”)
+
+Animated ribbon flows across screen.
+
+🎮 "Next Level" button with pop animation.
+
+🎨 4. UI/UX Creative Elements
+Back button: Top-left, soft bounce when hovered.
+
+Smooth transitions between screens (fade, slide).
+
+Progress bar: Updates live after each story.
+
+Themes/Mode toggle (light/dark mode or fun styles).
+
+Whimsical icons: Bookmarks, stars, magic wands.
+
+Responsive design for all screen sizes.
+
+🧠 5. Accessibility Features
+Dyslexia-friendly fonts (e.g., OpenDyslexic).
+
+Adjustable font sizes and color contrasts.
+
+Word highlighting and replay audio options.
+
+Minimal distractions and soothing background sounds.
+
+Keyboard navigation & screen reader compatibility.
+
+🛠️ Technical Stack (suggested for AI use)
+Frontend: React.js (or vanilla HTML/CSS/JS for simpler version)
+
+Styling: Tailwind CSS or custom CSS animations
+
+Backend (optional): Firebase or simple JSON storage for progress
+
+Deployment: Netlify / Vercel
+
+Audio: SpeechSynthesis API or recorded narrations
+
+Story Management: JSON files or database
+
+🧩 Story Themes Suggestion:
+🐰 Bunny’s Garden Adventure
+
+🧚 The Lost Fairy Wand
+
+🐠 Ocean of Colors
+
+🚀 Rocket to Reading Galaxy
+
+🏰 WhizWords Castle Escape
+
+🦄 The Rainbow Unicorn's Quest
+
+Each story unlocks new art, animations, and effects — making reading a rewarding journey.
