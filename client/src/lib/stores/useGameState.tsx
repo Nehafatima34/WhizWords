@@ -105,7 +105,7 @@ export const useGameState = create<GameState>((set, get) => ({
   
   setDifficulty: (difficulty) => {
     // Get stories for the selected difficulty
-    const selectedStories = stories[difficulty];
+    const selectedStories = stories[difficulty] || [];
     
     set({
       difficulty,
@@ -116,10 +116,22 @@ export const useGameState = create<GameState>((set, get) => ({
   
   startGame: () => {
     const { stories, difficulty } = get();
-    const difficultyStories = stories.length > 0 ? stories : [...stories[difficulty]];
+    // Just use the default stories if none are set yet
+    let selectedStories: Story[] = [];
     
-    if (difficultyStories.length === 0) {
-      console.error("No stories available");
+    if (Array.isArray(stories) && stories.length > 0) {
+      selectedStories = stories;
+    } else {
+      // Fall back to the pre-defined stories
+      selectedStories = stories[difficulty] || [];
+      if (selectedStories.length === 0) {
+        // If still empty, get stories for the current difficulty directly
+        selectedStories = [...stories[difficulty]];
+      }
+    }
+    
+    if (selectedStories.length === 0) {
+      console.error("No stories available for difficulty:", difficulty);
       return;
     }
     
@@ -127,8 +139,8 @@ export const useGameState = create<GameState>((set, get) => ({
     set({
       phase: "playing",
       currentLevel: 1,
-      currentStory: difficultyStories[0],
-      currentStoryTheme: difficultyStories[0].theme,
+      currentStory: selectedStories[0],
+      currentStoryTheme: selectedStories[0].theme,
       currentWordIndex: -1, // Start before first word
       levelsCompleted: 0
     });

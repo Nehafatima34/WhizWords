@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useGameState } from "../../lib/stores/useGameState";
 import { useAudio } from "../../lib/stores/useAudio";
 import BackButton from "./BackButton";
 import ProgressBar from "./ProgressBar";
+import RibbonAnimation from './RibbonAnimation';
 
 const StoryReader = () => {
   const { 

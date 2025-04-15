@@ -1,88 +1,45 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 interface MotivationalMessageProps {
   difficulty: "easy" | "medium" | "hard";
 }
 
 const MotivationalMessage = ({ difficulty }: MotivationalMessageProps) => {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const easyMessages = [
-      "Great job! You're getting better with every word!",
-      "Well done! Keep up the good work!",
-      "You're making great progress! Keep it up!",
-      "Fantastic! You're mastering these words!"
-    ];
-
-    const mediumMessages = [
-      "Well done! You're on fire!",
-      "Impressive work! You're really getting the hang of this!",
-      "You're doing so well! Keep pushing yourself!",
-      "Amazing progress! You're tackling these words like a pro!"
-    ];
-
-    const hardMessages = [
-      "Keep going, you're unstoppable!",
-      "Outstanding work! You're mastering even the toughest words!",
-      "Incredible job! Your hard work is really paying off!",
-      "Phenomenal! You're conquering these challenging words!"
-    ];
-
-    let messageList;
-    switch (difficulty) {
-      case "easy":
-        messageList = easyMessages;
-        break;
-      case "medium":
-        messageList = mediumMessages;
-        break;
-      case "hard":
-        messageList = hardMessages;
-        break;
-      default:
-        messageList = easyMessages;
-    }
-
-    // Randomly select a message
-    const randomIndex = Math.floor(Math.random() * messageList.length);
-    setMessage(messageList[randomIndex]);
+  // Select a random motivational message based on difficulty
+  const message = useMemo(() => {
+    const messages = {
+      easy: [
+        "You're becoming a better reader with each story!",
+        "Your reading skills are growing stronger!",
+        "Great job with those words! Keep going!",
+        "You're making excellent progress!",
+      ],
+      medium: [
+        "You're tackling more challenging words and doing great!",
+        "Your reading is getting more fluid with each story!",
+        "Impressive work with these longer stories!",
+        "You're building strong reading skills!",
+      ],
+      hard: [
+        "You're mastering complex words like a pro!",
+        "Your dedication to reading is truly inspiring!",
+        "Outstanding work with these challenging stories!",
+        "You've achieved an impressive reading milestone!",
+      ]
+    };
+    
+    // Get messages for the current difficulty
+    const difficultyMessages = messages[difficulty];
+    
+    // Pick a random message from the array
+    const randomIndex = Math.floor(Math.random() * difficultyMessages.length);
+    return difficultyMessages[randomIndex];
   }, [difficulty]);
-
-  // Animation for the text to appear letter by letter
-  const sentence = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.8,
-        staggerChildren: 0.03
-      }
-    }
-  };
-
-  const letter = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0
-    }
-  };
-
+  
   return (
-    <motion.p
-      className="text-xl text-purple-600 mb-4 font-lexend"
-      variants={sentence}
-      initial="hidden"
-      animate="visible"
-    >
-      {message.split("").map((char, index) => (
-        <motion.span key={`char-${index}`} variants={letter}>
-          {char}
-        </motion.span>
-      ))}
-    </motion.p>
+    <div className="italic text-purple-600">
+      "{message}"
+    </div>
   );
 };
 
