@@ -39,7 +39,7 @@ interface GameState {
 }
 
 // Sample stories by difficulty and theme
-const stories: Record<Difficulty, Story[]> = {
+const storiesByDifficulty: Record<Difficulty, Story[]> = {
   easy: [
     {
       id: "bunny-garden",
@@ -105,7 +105,7 @@ export const useGameState = create<GameState>((set, get) => ({
   
   setDifficulty: (difficulty) => {
     // Get stories for the selected difficulty
-    const selectedStories = stories[difficulty] || [];
+    const selectedStories = storiesByDifficulty[difficulty as keyof typeof storiesByDifficulty] || [];
     
     set({
       difficulty,
@@ -148,7 +148,7 @@ export const useGameState = create<GameState>((set, get) => ({
           }
           
           // If API fetch fails or returns no stories, fall back to the pre-defined stories
-          const fallbackStories = stories[difficulty] || [];
+          const fallbackStories = storiesByDifficulty[difficulty as keyof typeof storiesByDifficulty] || [];
           if (fallbackStories.length > 0) {
             set({
               stories: fallbackStories,
@@ -169,7 +169,7 @@ export const useGameState = create<GameState>((set, get) => ({
           console.error("Failed to fetch stories:", error);
           
           // Fall back to predefined stories on error
-          const fallbackStories = stories[difficulty] || [];
+          const fallbackStories = storiesByDifficulty[difficulty as keyof typeof storiesByDifficulty] || [];
           if (fallbackStories.length > 0) {
             set({
               stories: fallbackStories,
