@@ -1,0 +1,101 @@
+Project Overview:
+WhizWords is an interactive dyslexic reader game designed to help users improve their reading and word recognition skills. The game incorporates fun and engaging mechanics with a motivational and gamified approach. Each level contains word puzzles that get progressively harder, and as users complete levels, they are rewarded with motivational messages, animated ribbons, and visual effects to keep them encouraged.
+
+Home Page: The Home Page serves as the entry point for the game. It should include:
+Welcome message: A warm and inviting greeting such as "Welcome to WhizWords! Ready to improve your word skills?".
+
+Motivational tagline: Example: "Get ready to conquer words, level by level!"
+
+Game Modes Selector: Users can select difficulty—Easy, Medium, or Hard.
+
+Start Button: A large, clickable button that launches the game.
+
+Animated Background: A flowing, ribbon-like animation or something visually stimulating to draw users' attention and make the page feel interactive.
+
+Progress Bar: A horizontal bar showing the current level’s progress.
+
+Back Button: A button that lets users go back to the main menu or previous screen.
+
+Game Start: Choose Difficulty: Upon clicking Start, users can choose the difficulty level (Easy, Medium, Hard). This will affect:
+The speed and complexity of the word puzzles.
+
+The motivational message and visual effects on level completion.
+
+In-Game Mechanics: The game presents a word puzzle that the player must solve within a limited time (or until they complete the puzzle).
+Puzzle Example: An incomplete word (e.g., "_pple") and the user must choose the correct letters from a selection to complete it.
+
+The game’s interface should include:
+
+Word puzzle area: Where the incomplete word appears.
+
+Letter selector: A group of letters or options that the player can drag or click to complete the word.
+
+Timer: A countdown clock that adds excitement and challenge.
+
+Feedback during Puzzle Solving:
+
+If the player selects the wrong letter, they receive a gentle feedback sound (e.g., a soft “buzz” or sound effect).
+
+If the player selects the right letter, there should be positive feedback, like a ding sound and a highlight effect on the correct letters.
+
+Level Completion: Once the puzzle is solved:
+
+The user is taken to the level completion screen.
+
+They see a motivational pop-up with a motivational tagline.
+
+An animated ribbon appears at the top of the screen, flowing from left to right, accompanied by a celebratory sound effect (e.g., confetti, sparkles).
+
+Level Completion and Feedback: Pop-Up Motivational Message:
+Appears after successfully completing a level.
+
+Example messages:
+
+"Great job! You’re getting better with every word!"
+
+"Well done! You’re on fire!"
+
+"Keep going, you’re unstoppable!"
+
+The pop-up should fade in smoothly, stay visible for around 5 seconds, and then automatically disappear or can be closed by the user with a close button.
+
+Ribbon Animation:
+
+The ribbon should animate from left to right at the top of the screen.
+
+The colors should be vibrant and festive, such as a gradient from pink to red.
+
+The ribbon animation duration is about 3 seconds, and it should be accompanied by an optional sound effect (like a celebratory chime or applause).
+
+Level Progression: After the ribbon animation and motivational message:
+The user is automatically transitioned to the next level.
+
+A progress bar should be displayed at the bottom of the screen, showing the user’s progress through all levels.
+
+If the user has completed all the levels, the final level should present a "Game Complete" screen, congratulating the player and encouraging them to start again or share their achievements.
+
+Difficulty Setting: Easy Mode: Shorter words, slower pace, and fewer distractions. Motivational messages are simple and direct.
+Medium Mode: A moderate challenge with a slightly faster pace and slightly harder words. Motivational messages will encourage users to keep pushing.
+
+Hard Mode: The hardest challenge with longer and more complex words. Motivational messages will be intense, providing strong encouragement.
+
+Interactive Features and Creative Enhancements: Word Progress Tracker: A progress bar or percentage showing how far the player has come through each level.
+Sound Effects: To make the game more immersive, use positive feedback sounds when players complete a puzzle or select the right word.
+
+Celebratory Sound: Played when the level is completed. A chime, applause, or cheers.
+
+Negative Sound: A light buzz when an incorrect word is selected.
+
+Visual Effects:
+
+Animated Ribbons: The flowing ribbons that appear when the level is completed.
+
+Confetti or Sparkles: To increase the celebratory atmosphere, sparkles or confetti could appear as the ribbon flows.
+
+Text Animations: Motivational messages can have a typing animation or fade-in effect to make them more exciting.
+
+Game Flow & User Interaction: Back Button: A back button on the home page and within the game to let users navigate between screens, return to the main menu, or exit the game.
+Continue Game: After level completion, there should be an option to either continue to the next level or restart the current level.
+
+Final Touches: Responsive Design: Ensure the game is mobile-friendly. The game should resize and adjust correctly on any screen size or device.
+Performance Optimization: Make sure that the animations and effects are smooth and not too heavy for any device. Optimize images and scripts.
