@@ -122,12 +122,68 @@ export const useGameState = create<GameState>((set, get) => ({
     if (Array.isArray(stories) && stories.length > 0) {
       selectedStories = stories;
     } else {
-      // Fall back to the pre-defined stories
-      selectedStories = stories[difficulty] || [];
-      if (selectedStories.length === 0) {
-        // If still empty, get stories for the current difficulty directly
-        selectedStories = [...stories[difficulty]];
-      }
+      // Try to fetch stories from the API
+      fetch('/api/stories')
+        .then(response => response.json())
+        .then(data => {
+          if (data.stories && Array.isArray(data.stories)) {
+            // Filter by the selected difficulty
+            const storiesForDifficulty = data.stories.filter(
+              (story: Story) => story.difficulty === difficulty
+            );
+            
+            if (storiesForDifficulty.length > 0) {
+              set({
+                stories: storiesForDifficulty,
+                totalLevels: storiesForDifficulty.length,
+                phase: "playing",
+                currentLevel: 1,
+                currentStory: storiesForDifficulty[0],
+                currentStoryTheme: storiesForDifficulty[0].theme,
+                currentWordIndex: -1,
+                levelsCompleted: 0
+              });
+              return;
+            }
+          }
+          
+          // If API fetch fails or returns no stories, fall back to the pre-defined stories
+          const fallbackStories = stories[difficulty] || [];
+          if (fallbackStories.length > 0) {
+            set({
+              stories: fallbackStories,
+              totalLevels: fallbackStories.length,
+              phase: "playing",
+              currentLevel: 1,
+              currentStory: fallbackStories[0],
+              currentStoryTheme: fallbackStories[0].theme,
+              currentWordIndex: -1,
+              levelsCompleted: 0
+            });
+            return;
+          }
+          
+          console.error("No stories available for difficulty:", difficulty);
+        })
+        .catch(error => {
+          console.error("Failed to fetch stories:", error);
+          
+          // Fall back to predefined stories on error
+          const fallbackStories = stories[difficulty] || [];
+          if (fallbackStories.length > 0) {
+            set({
+              stories: fallbackStories,
+              totalLevels: fallbackStories.length,
+              phase: "playing",
+              currentLevel: 1,
+              currentStory: fallbackStories[0],
+              currentStoryTheme: fallbackStories[0].theme,
+              currentWordIndex: -1,
+              levelsCompleted: 0
+            });
+          }
+        });
+      return; // Return early as we're handling state updates in the Promise
     }
     
     if (selectedStories.length === 0) {
